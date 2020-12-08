@@ -9,7 +9,7 @@ square with the same color as the top left square will be filled with the new co
 complete the puzzle in the fewest number of moves. 
 
 ## Libraries
-- ReasonReact
+- ReasonReact - Set up a basic web app on my computer but still learning the syntax.
 
 ## Mock Behavior
 The final app would be done in a UI; sample gameplay is shown below, where g = green, b = blue, and r=red.
@@ -50,10 +50,10 @@ Game completed in 3 moves.
 1. Get a basic app running on localhost:8000.
 2. Implement basic user interface of website that houses the game board as well as any extra buttons
 or text fields to specify game parameters (e.g. size of the game board).
-3. Implement initialization logic of game based on game parameters passed into the app, including
+3. Implement initialization logic of game based on game parameters passed into the app, namely
 setting the colors of all the squares on the board.
 4. Implement flood filling logic - when user clicks on square, get the color of the square, fill
 the top-leftmost square with that color, and propagate the color to all squares in orthogonal path to 
 top-leftmost square with the same color as it.
 5. Implement move counter and checking logic to stop the game if the game is over.
-6. Additional features can be added on later.
+6. Additional features can be added on later, but unlikely as learning ReasonReact may take a while.
