@@ -2,17 +2,14 @@
 
 var React = require("react");
 var ReactDom = require("react-dom");
-var ExampleStyles$Flood = require("./ExampleStyles.bs.js");
-var BlinkingGreeting$Flood = require("./BlinkingGreeting/BlinkingGreeting.bs.js");
-var FetchedDogPictures$Flood = require("./FetchedDogPictures/FetchedDogPictures.bs.js");
-var ReducerFromReactJSDocs$Flood = require("./ReducerFromReactJSDocs/ReducerFromReactJSDocs.bs.js");
-var ReasonUsingJSUsingReason$Flood = require("./ReasonUsingJSUsingReason/ReasonUsingJSUsingReason.bs.js");
+var Flood$Flood = require("./Flood/flood.bs.js");
+var ContainerStyles$Flood = require("./ContainerStyles.bs.js");
 
 var style = document.createElement("style");
 
 document.head.appendChild(style);
 
-style.innerHTML = ExampleStyles$Flood.style;
+style.innerHTML = ContainerStyles$Flood.style;
 
 function makeContainer(text) {
   var container = document.createElement("div");
@@ -28,15 +25,7 @@ function makeContainer(text) {
   return content;
 }
 
-ReactDom.render(React.createElement(BlinkingGreeting$Flood.make, {
-          children: "Hello!"
-        }), makeContainer("Blinking Greeting"));
-
-ReactDom.render(React.createElement(ReducerFromReactJSDocs$Flood.make, {}), makeContainer("Reducer From ReactJS Docs"));
-
-ReactDom.render(React.createElement(FetchedDogPictures$Flood.make, {}), makeContainer("Fetched Dog Pictures"));
-
-ReactDom.render(React.createElement(ReasonUsingJSUsingReason$Flood.make, {}), makeContainer("Reason Using JS Using Reason"));
+ReactDom.render(React.createElement(Flood$Flood.make, {}), makeContainer("Flood Game"));
 
 exports.style = style;
 exports.makeContainer = makeContainer;

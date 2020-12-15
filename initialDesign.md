@@ -1,4 +1,6 @@
 # Project Plan
+Project on GitHub: https://github.com/codethejason/flood-game.
+
 ## Overview
 I think it would a good oppoortunity to learn ReasonReact to take advantage of typing and other FP
 features to build the Flood app [here](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/flood.html).
