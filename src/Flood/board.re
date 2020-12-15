@@ -8,6 +8,7 @@ let containerStyle =
     ~flexWrap="wrap",
     ~justifyContent="space-around",
     ~alignContent="space-around",
+    ~border="5px solid #555",
     (),
   );
 
@@ -33,6 +34,7 @@ let squareStyle(color, numberSquares) =
     ~display="flex",
     ~width=string_of_int(100 / numberSquares) ++ "%",
     ~height=string_of_int(100 / numberSquares) ++ "%",
+    ~cursor="pointer",
     (),
   );
 

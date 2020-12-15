@@ -6,6 +6,7 @@ var Caml_int32 = require("bs-platform/lib/js/caml_int32.js");
 
 var containerStyle = {
   background: "#555",
+  border: "5px solid #555",
   display: "flex",
   height: "80vh",
   width: "80vh",
@@ -36,6 +37,7 @@ function colorString(color) {
 function squareStyle(color, numberSquares) {
   return {
           background: colorString(color),
+          cursor: "pointer",
           display: "flex",
           height: String(Caml_int32.div(100, numberSquares)) + "%",
           width: String(Caml_int32.div(100, numberSquares)) + "%"
