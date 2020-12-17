@@ -35,10 +35,10 @@ type action =
 type state = {
   moves: int,
   finished: bool,
-  board: array(array(color)),
+  board: Board.board,
 };
 
-let initialState = {moves: 0, finished: true, board: [||]};
+let initialState = {moves: 0, finished: true, board: Board.getEmptyBoard()};
 
 let reducer = (state, action) => {
   switch (action) {
@@ -47,7 +47,7 @@ let reducer = (state, action) => {
     {moves: 0, finished: Board.isFinished(newBoard), board: newBoard};
   | Fill(color) =>
     /* let newBoard = state.board; */
-    let color00 = state.board[0][0];
+    let color00 = Board.getColor00(state.board);
     Board.fill(0, 0, color00, color, state.board);
     {
       moves: color00 == color ? state.moves : state.moves + 1,

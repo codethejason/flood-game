@@ -2,7 +2,7 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var Caml_array = require("bs-platform/lib/js/caml_array.js");
+var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Board$Flood = require("./board.bs.js");
 var ContainerStyles$Flood = require("../ContainerStyles.bs.js");
 
@@ -26,7 +26,7 @@ var infoStyle = {
   borderRadius: "3px"
 };
 
-var initialState_board = [];
+var initialState_board = Board$Flood.getEmptyBoard(undefined);
 
 var initialState = {
   moves: 0,
@@ -37,10 +37,10 @@ var initialState = {
 function reducer(state, action) {
   if (action.TAG) {
     var color = action._0;
-    var color00 = Caml_array.get(Caml_array.get(state.board, 0), 0);
+    var color00 = Board$Flood.getColor00(state.board);
     Board$Flood.fill(0, 0, color00, color, state.board);
     return {
-            moves: color00 === color ? state.moves : state.moves + 1 | 0,
+            moves: Caml_obj.caml_equal(color00, color) ? state.moves : state.moves + 1 | 0,
             finished: Board$Flood.isFinished(state.board),
             board: state.board
           };
@@ -87,15 +87,12 @@ function Flood(Props) {
                           onChange: onChange
                         }), React.createElement("button", {
                           type: "submit"
-                        }, "Start"))), React.createElement(Board$Flood.make, {
-                  boardState: state.board,
-                  makeMove: (function (c, _e) {
-                      return Curry._1(dispatch, {
-                                  TAG: /* Fill */1,
-                                  _0: c
-                                });
-                    })
-                }), React.createElement("div", {
+                        }, "Start"))), React.createElement(Board$Flood.make, Board$Flood.makeProps(state.board, (function (c, _e) {
+                        return Curry._1(dispatch, {
+                                    TAG: /* Fill */1,
+                                    _0: c
+                                  });
+                      }), undefined, undefined)), React.createElement("div", {
                   style: infoStyle
                 }, React.createElement("h2", undefined, "Game Status"), React.createElement("p", undefined, String(state.moves) + " moves made"), React.createElement("p", undefined, state.finished ? "Good job, you're done!" : "Keep going, you're almost there!")));
 }
@@ -108,4 +105,4 @@ exports.infoStyle = infoStyle;
 exports.initialState = initialState;
 exports.reducer = reducer;
 exports.make = make;
-/* react Not a pure module */
+/* initialState Not a pure module */

@@ -7,8 +7,17 @@ var React = require("react");
 var Random = require("bs-platform/lib/js/random.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
+var Caml_option = require("bs-platform/lib/js/caml_option.js");
 
-function colorString(color) {
+function getEmptyBoard(param) {
+  return [];
+}
+
+function getColor00(board) {
+  return Caml_array.get(Caml_array.get(board, 0), 0);
+}
+
+function colorToCSSColor(color) {
   switch (color) {
     case /* G */0 :
         return "green";
@@ -41,7 +50,7 @@ var containerStyle = {
 
 function squareStyle(color, numberSquares) {
   return {
-          background: colorString(color),
+          background: colorToCSSColor(color),
           border: "1px solid #555",
           cursor: "pointer",
           display: "flex",
@@ -65,10 +74,10 @@ function createRandomBoard(size) {
 }
 
 function isFinished(board) {
-  var color00 = Caml_array.get(Caml_array.get(board, 0), 0);
+  var color00 = getColor00(board);
   return $$Array.fold_left((function (acc1, a) {
                 return $$Array.fold_left((function (acc2, sq) {
-                              if (Caml_obj.caml_equal(sq, color00)) {
+                              if (sq === color00) {
                                 return acc2 + 1 | 0;
                               } else {
                                 return acc2;
@@ -144,12 +153,24 @@ function Board(Props) {
 
 var make = Board;
 
-exports.colorString = colorString;
-exports.containerStyle = containerStyle;
-exports.squareStyle = squareStyle;
+function makeProps(prim, prim$1, prim$2, prim$3) {
+  var tmp = {
+    boardState: prim,
+    makeMove: prim$1
+  };
+  if (prim$2 !== undefined) {
+    tmp.key = Caml_option.valFromOption(prim$2);
+  }
+  return tmp;
+}
+
+exports.getEmptyBoard = getEmptyBoard;
+exports.getColor00 = getColor00;
+exports.colorToCSSColor = colorToCSSColor;
 exports.createRandomBoard = createRandomBoard;
 exports.isFinished = isFinished;
 exports.neighbors = neighbors;
 exports.fill = fill;
 exports.make = make;
+exports.makeProps = makeProps;
 /* react Not a pure module */

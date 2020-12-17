@@ -6,7 +6,11 @@ type color =
   | B
   | P;
 
-let colorString = color =>
+type board = array(array(color));
+let getEmptyBoard = (): board => [||];
+let getColor00 = (board): color => board[0][0];
+
+let colorToCSSColor = color =>
   switch (color) {
   | G => "green"
   | R => "red"
@@ -33,7 +37,7 @@ let containerStyle =
 
 let squareStyle = (color, numberSquares) =>
   ReactDOMRe.Style.make(
-    ~background=colorString(color),
+    ~background=colorToCSSColor(color),
     ~display="flex",
     ~width=Js.Float.toString(100. /. float_of_int(numberSquares)) ++ "%",
     ~height=Js.Float.toString(100. /. float_of_int(numberSquares)) ++ "%",
@@ -61,7 +65,7 @@ let createRandomBoard = (size: int) => {
 };
 
 let isFinished = board => {
-  let color00 = board[0][0];
+  let color00 = getColor00(board);
   Array.fold_left(
     (acc1, a) =>
       Array.fold_left(
@@ -76,7 +80,7 @@ let isFinished = board => {
   * Array.length(board); // Easier to do this than float conversion **
 };
 
-let neighbors = (x, y, lenBoard): list((int, int)) => {
+let neighbors = (x, y, lenBoard) => {
   let filter_helper = ((x', y')) =>
     x' >= 0 && x' < lenBoard && y' >= 0 && y' < lenBoard;
   let possible = [(x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1)];
