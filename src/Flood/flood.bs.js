@@ -1,9 +1,8 @@
 'use strict';
 
-var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var Random = require("bs-platform/lib/js/random.js");
+var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Board$Flood = require("./board.bs.js");
 var ContainerStyles$Flood = require("../ContainerStyles.bs.js");
 
@@ -27,64 +26,30 @@ var infoStyle = {
   borderRadius: "3px"
 };
 
-var initialState_board = [
-  [
-    /* R */1,
-    /* Y */2,
-    /* P */5
-  ],
-  [
-    /* R */1,
-    /* G */0,
-    /* Y */2
-  ],
-  [
-    /* G */0,
-    /* B */4,
-    /* O */3
-  ]
-];
+var initialState_board = [];
 
 var initialState = {
   moves: 0,
-  finished: false,
+  finished: true,
   board: initialState_board
 };
 
-function createRandomBoard(size) {
-  return $$Array.map((function (param) {
-                return $$Array.map((function (param) {
-                              var match = Random.$$int(5);
-                              if (match > 4 || match < 0) {
-                                return /* P */5;
-                              } else {
-                                return match;
-                              }
-                            }), param);
-              }), $$Array.make_matrix(size, size, /* G */0));
-}
-
-function isFinished(board) {
-  return board.length === 1;
-}
-
 function reducer(state, action) {
   if (action.TAG) {
-    var newBoard = state.board;
+    var color = action._0;
+    var color00 = Caml_array.get(Caml_array.get(state.board, 0), 0);
+    Board$Flood.fill(0, 0, color00, color, state.board);
     return {
-            moves: state.moves + 1 | 0,
-            finished: newBoard.length === 1,
-            board: [[
-                /* G */0,
-                /* B */4
-              ]]
+            moves: color00 === color ? state.moves : state.moves + 1 | 0,
+            finished: Board$Flood.isFinished(state.board),
+            board: state.board
           };
   }
-  var newBoard$1 = createRandomBoard(action._0);
+  var newBoard = Board$Flood.createRandomBoard(action._0);
   return {
           moves: 0,
-          finished: newBoard$1.length === 1,
-          board: newBoard$1
+          finished: Board$Flood.isFinished(newBoard),
+          board: newBoard
         };
 }
 
@@ -111,21 +76,28 @@ function Flood(Props) {
               style: containerStyle
             }, React.createElement("div", {
                   style: newGameStyle
-                }, React.createElement("h3", undefined, "Start New Game"), React.createElement("form", {
+                }, React.createElement("h2", undefined, "Start New Game"), React.createElement("form", {
                       onSubmit: onSubmit
                     }, React.createElement("input", {
+                          max: "100",
                           min: "1",
                           name: "size",
-                          placeholder: "Size",
+                          placeholder: "Board Size",
                           type: "number",
                           onChange: onChange
                         }), React.createElement("button", {
                           type: "submit"
                         }, "Start"))), React.createElement(Board$Flood.make, {
-                  boardState: state.board
+                  boardState: state.board,
+                  makeMove: (function (c, _e) {
+                      return Curry._1(dispatch, {
+                                  TAG: /* Fill */1,
+                                  _0: c
+                                });
+                    })
                 }), React.createElement("div", {
                   style: infoStyle
-                }, React.createElement("h3", undefined, "Game Status"), React.createElement("p", undefined, String(state.moves) + " moves made"), React.createElement("p", undefined, state.finished ? "Good job, you're done!" : "Keep going, you're almost there!")));
+                }, React.createElement("h2", undefined, "Game Status"), React.createElement("p", undefined, String(state.moves) + " moves made"), React.createElement("p", undefined, state.finished ? "Good job, you're done!" : "Keep going, you're almost there!")));
 }
 
 var make = Flood;
@@ -134,8 +106,6 @@ exports.containerStyle = containerStyle;
 exports.newGameStyle = newGameStyle;
 exports.infoStyle = infoStyle;
 exports.initialState = initialState;
-exports.createRandomBoard = createRandomBoard;
-exports.isFinished = isFinished;
 exports.reducer = reducer;
 exports.make = make;
 /* react Not a pure module */

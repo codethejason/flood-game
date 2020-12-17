@@ -8,9 +8,13 @@ let style = {j|
     flex-direction: column;
     align-items: center;
   }
+  h2 {
+    font-size: 18px;
+  }
   input[type=number] {
     padding: 8px;
     margin: 1px 10px 1px 0px;
+    width: 100px;
   }
   button {
     background-color: white;

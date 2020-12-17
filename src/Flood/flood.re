@@ -30,7 +30,7 @@ type move = {
 
 type action =
   | Reset(boardSize)
-  | Fill(move);
+  | Fill(color);
 
 type state = {
   moves: int,
@@ -38,47 +38,21 @@ type state = {
   board: array(array(color)),
 };
 
-let initialState = {
-  moves: 0,
-  finished: false,
-  board: [|[|R, Y, P|], [|R, G, Y|], [|G, B, O|]|],
-};
-
-let createRandomBoard = (size: int) => {
-  // Random.init(int_of_float(Js.Date.now()));
-  Array.make_matrix(size, size, Board.G)
-  |> Array.map(
-       Array.map(_ =>
-         switch (Random.int(5)) {
-         | 0 => Board.G
-         | 1 => Board.R
-         | 2 => Board.Y
-         | 3 => Board.O
-         | 4 => Board.B
-         | _ => Board.P
-         }
-       ),
-     );
-};
-
-let isFinished = board =>
-  if (Array.length(board) == 1) {
-    true;
-  } else {
-    false;
-  };
+let initialState = {moves: 0, finished: true, board: [||]};
 
 let reducer = (state, action) => {
   switch (action) {
   | Reset(size) =>
-    let newBoard = createRandomBoard(size);
-    {moves: 0, finished: isFinished(newBoard), board: newBoard};
-  | Fill(_) =>
-    let newBoard = state.board;
+    let newBoard = Board.createRandomBoard(size);
+    {moves: 0, finished: Board.isFinished(newBoard), board: newBoard};
+  | Fill(color) =>
+    /* let newBoard = state.board; */
+    let color00 = state.board[0][0];
+    Board.fill(0, 0, color00, color, state.board);
     {
-      moves: state.moves + 1,
-      finished: isFinished(newBoard),
-      board: [|[|G, B|]|],
+      moves: color00 == color ? state.moves : state.moves + 1,
+      finished: Board.isFinished(state.board),
+      board: state.board,
     };
   };
 };
@@ -99,22 +73,26 @@ let make = () => {
 
   <div style=containerStyle>
     <div style=newGameStyle>
-      <h3> {React.string("Start New Game")} </h3>
+      <h2> {React.string("Start New Game")} </h2>
       // {React.string(string_of_int(state.moves))}
       <form onSubmit>
         <input
           type_="number"
           min="1"
+          max="100"
           name="size"
-          placeholder="Size"
+          placeholder="Board Size"
           onChange
         />
         <button type_="submit"> {React.string("Start")} </button>
       </form>
     </div>
-    <Board boardState={state.board} />
+    <Board
+      boardState={state.board}
+      makeMove={(c: color, _e) => dispatch(Fill(c))}
+    />
     <div style=infoStyle>
-      <h3> {React.string("Game Status")} </h3>
+      <h2> {React.string("Game Status")} </h2>
       <p> {React.string(string_of_int(state.moves) ++ " moves made")} </p>
       <p>
         {switch (state.finished) {
