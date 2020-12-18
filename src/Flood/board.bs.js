@@ -7,7 +7,6 @@ var React = require("react");
 var Random = require("bs-platform/lib/js/random.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
-var Caml_option = require("bs-platform/lib/js/caml_option.js");
 
 function getEmptyBoard(param) {
   return [];
@@ -153,17 +152,6 @@ function Board(Props) {
 
 var make = Board;
 
-function makeProps(prim, prim$1, prim$2, prim$3) {
-  var tmp = {
-    boardState: prim,
-    makeMove: prim$1
-  };
-  if (prim$2 !== undefined) {
-    tmp.key = Caml_option.valFromOption(prim$2);
-  }
-  return tmp;
-}
-
 exports.getEmptyBoard = getEmptyBoard;
 exports.getColor00 = getColor00;
 exports.colorToCSSColor = colorToCSSColor;
@@ -172,5 +160,4 @@ exports.isFinished = isFinished;
 exports.neighbors = neighbors;
 exports.fill = fill;
 exports.make = make;
-exports.makeProps = makeProps;
 /* react Not a pure module */

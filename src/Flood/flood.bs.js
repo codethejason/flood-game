@@ -87,12 +87,15 @@ function Flood(Props) {
                           onChange: onChange
                         }), React.createElement("button", {
                           type: "submit"
-                        }, "Start"))), React.createElement(Board$Flood.make, Board$Flood.makeProps(state.board, (function (c, _e) {
-                        return Curry._1(dispatch, {
-                                    TAG: /* Fill */1,
-                                    _0: c
-                                  });
-                      }), undefined, undefined)), React.createElement("div", {
+                        }, "Start"))), React.createElement(Board$Flood.make, {
+                  boardState: state.board,
+                  makeMove: (function (c, _e) {
+                      return Curry._1(dispatch, {
+                                  TAG: /* Fill */1,
+                                  _0: c
+                                });
+                    })
+                }), React.createElement("div", {
                   style: infoStyle
                 }, React.createElement("h2", undefined, "Game Status"), React.createElement("p", undefined, String(state.moves) + " moves made"), React.createElement("p", undefined, state.finished ? "Good job, you're done!" : "Keep going, you're almost there!")));
 }

@@ -1,4 +1,5 @@
 let containerStyle = ReactDOMRe.Style.make(~display="block", ());
+
 let newGameStyle =
   ReactDOMRe.Style.make(
     ~background="#eee",
@@ -8,6 +9,7 @@ let newGameStyle =
     ~borderRadius="3px",
     (),
   );
+
 let infoStyle =
   ReactDOMRe.Style.make(
     ~background=ContainerStyles.reasonReactBlue,
@@ -20,16 +22,10 @@ let infoStyle =
 
 type color = Board.color;
 
-type boardSize = int;
-
-type move = {
-  x: int,
-  y: int,
-  c: color,
-};
+type size = int;
 
 type action =
-  | Reset(boardSize)
+  | Reset(size)
   | Fill(color);
 
 type state = {
@@ -46,7 +42,6 @@ let reducer = (state, action) => {
     let newBoard = Board.createRandomBoard(size);
     {moves: 0, finished: Board.isFinished(newBoard), board: newBoard};
   | Fill(color) =>
-    /* let newBoard = state.board; */
     let color00 = Board.getColor00(state.board);
     Board.fill(0, 0, color00, color, state.board);
     {
@@ -74,7 +69,6 @@ let make = () => {
   <div style=containerStyle>
     <div style=newGameStyle>
       <h2> {React.string("Start New Game")} </h2>
-      // {React.string(string_of_int(state.moves))}
       <form onSubmit>
         <input
           type_="number"

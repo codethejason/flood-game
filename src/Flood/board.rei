@@ -15,25 +15,7 @@ let neighbors: (int, int, int) => list((int, int));
 
 let fill: (int, int, color, color, board) => unit;
 
-// [@react.component]
-// let make: ((~boardState: board), (~makeMove:(color => ReactEvent.Mouse.t => unit))) => React.element;
+[@react.component]
 let make:
-  {
-    .
-    "boardState": board,
-    "makeMove": (color, ReactEvent.Mouse.t) => unit,
-  } =>
+  (~boardState: board, ~makeMove: (color, ReactEvent.Mouse.t) => unit) =>
   React.element;
-
-let makeProps:
-  (
-    ~boardState: board,
-    ~makeMove: (color, ReactEvent.Mouse.t) => unit,
-    ~key: string=?,
-    unit
-  ) =>
-  {
-    .
-    "boardState": board,
-    "makeMove": (color, ReactEvent.Mouse.t) => unit,
-  };
