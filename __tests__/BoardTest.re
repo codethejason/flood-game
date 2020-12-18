@@ -27,8 +27,17 @@ describe("Board functionality helper functions", () => {
 
   test("create random board returns correct dimensions", () => {
     let exampleBoard: Board.board = Board.createRandomBoard(3);
-    let boardShape = (Array.length(exampleBoard), Array.length(exampleBoard[0]));
+    let boardShape = (
+      Array.length(exampleBoard),
+      Array.length(exampleBoard[0]),
+    );
     expect(boardShape) |> toEqual((3, 3));
+  });
+
+  test("create random board throws exception on negative numbers", () => {
+    expect(() =>
+      Board.createRandomBoard(-1)
+    ) |> toThrow
   });
 
   test("neighbors length", () => {
@@ -42,21 +51,28 @@ describe("Board functionality helper functions", () => {
   });
 
   test("fill board with color", () => {
-    let exampleBoard: Board.board = Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
+    let exampleBoard: Board.board =
+      Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
     Board.fill(0, 0, Board.P, Board.G, exampleBoard);
-    let expectedBoard: Board.board = Board.([|[|G, G, O|], [|G, B, G|], [|B, B, B|]|]);
+    let expectedBoard: Board.board =
+      Board.([|[|G, G, O|], [|G, B, G|], [|B, B, B|]|]);
     expect(exampleBoard) |> toEqual(expectedBoard);
   });
 
   test("fill should throw out of bounds", () => {
-    let exampleBoard: Board.board = Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
-    expect(() => {Board.fill(-1, 0, Board.G, Board.P, exampleBoard)}) |> toThrow;
+    let exampleBoard: Board.board =
+      Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
+    expect(() =>
+      Board.fill(-1, 0, Board.G, Board.P, exampleBoard)
+    ) |> toThrow;
   });
 
   test("fill should return same result if same target color", () => {
-    let exampleBoard: Board.board = Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
+    let exampleBoard: Board.board =
+      Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
     Board.fill(0, 0, Board.P, Board.P, exampleBoard);
-    let expectedBoard: Board.board = Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
+    let expectedBoard: Board.board =
+      Board.([|[|P, G, O|], [|P, B, G|], [|B, B, B|]|]);
     expect(exampleBoard) |> toEqual(expectedBoard);
   });
 });

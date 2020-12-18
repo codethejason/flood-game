@@ -50,11 +50,10 @@ let getEmptyBoard = (): board => [||];
 let getColor00 = board => board[0][0];
 
 let createRandomBoard = size => {
-  // Random.init(int_of_float(Js.Date.now()));
   Array.make_matrix(size, size, G)
   |> Array.map(
        Array.map(_ =>
-         switch (Random.int(5)) {
+         switch (Random.int(6)) {
          | 0 => G
          | 1 => R
          | 2 => Y

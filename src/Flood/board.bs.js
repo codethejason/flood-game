@@ -62,7 +62,7 @@ function getColor00(board) {
 function createRandomBoard(size) {
   return $$Array.map((function (param) {
                 return $$Array.map((function (param) {
-                              var match = Random.$$int(5);
+                              var match = Random.$$int(6);
                               if (match > 4 || match < 0) {
                                 return /* P */5;
                               } else {

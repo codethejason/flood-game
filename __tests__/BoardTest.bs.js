@@ -65,6 +65,11 @@ Jest.describe("Board functionality helper functions", (function (param) {
                             3
                           ], Jest.Expect.expect(boardShape));
               }));
+        Jest.test("create random board throws exception on negative numbers", (function (param) {
+                return Jest.Expect.toThrow(Jest.Expect.expect(function (param) {
+                                return Board$Flood.createRandomBoard(-1);
+                              }));
+              }));
         Jest.test("neighbors length", (function (param) {
                 var neighborsLength = List.length(Board$Flood.neighbors(1, 0, 10));
                 return Jest.Expect.toEqual(3, Jest.Expect.expect(neighborsLength));
