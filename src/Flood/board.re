@@ -7,8 +7,6 @@ type color =
   | P;
 
 type board = array(array(color));
-let getEmptyBoard = (): board => [||];
-let getColor00 = (board): color => board[0][0];
 
 let colorToCSSColor = color =>
   switch (color) {
@@ -47,7 +45,11 @@ let squareStyle = (color, numberSquares) =>
     (),
   );
 
-let createRandomBoard = (size: int) => {
+let getEmptyBoard = (): board => [||];
+
+let getColor00 = board => board[0][0];
+
+let createRandomBoard = size => {
   // Random.init(int_of_float(Js.Date.now()));
   Array.make_matrix(size, size, G)
   |> Array.map(
@@ -81,19 +83,19 @@ let isFinished = board => {
 };
 
 let neighbors = (x, y, lenBoard) => {
-  let filter_helper = ((x', y')) =>
+  let filterHelper = ((x', y')) =>
     x' >= 0 && x' < lenBoard && y' >= 0 && y' < lenBoard;
   let possible = [(x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1)];
-  List.filter(filter_helper, possible);
+  List.filter(filterHelper, possible);
 };
 
 let rec fill = (x, y, matchColor, newColor, board) => {
-  let rec_helper = (_, (x', y')) =>
+  let recHelper = (_, (x', y')) =>
     fill(x', y', matchColor, newColor, board);
   if (board[x][y] != newColor && board[x][y] == matchColor) {
     board[x][y] = newColor;
     let valid_neighbors = neighbors(x, y, Array.length(board));
-    List.fold_left(rec_helper, (), valid_neighbors);
+    List.fold_left(recHelper, (), valid_neighbors);
   };
 };
 

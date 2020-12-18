@@ -1,5 +1,12 @@
-type color;
-type board;
+type color =
+  | G
+  | R
+  | Y
+  | O
+  | B
+  | P;
+
+type board = array(array(color));
 
 let getEmptyBoard: unit => board;
 

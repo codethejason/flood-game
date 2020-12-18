@@ -6,12 +6,13 @@
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
     "server": "moduleserve ./ --port 8000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jest"
   },
   "keywords": [
     "BuckleScript",
     "ReasonReact",
-    "reason-react"
+    "reason-react",
+    "flood"
   ],
   "author": "",
   "license": "MIT",
@@ -21,7 +22,9 @@
     "reason-react": ">=0.7.1"
   },
   "devDependencies": {
+    "@glennsl/bs-jest": "^0.6.0",
     "bs-platform": "^8.3.3",
+    "jest": "^26.6.3",
     "moduleserve": "^0.9.0"
   }
 }

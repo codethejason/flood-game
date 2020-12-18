@@ -2,7 +2,6 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Board$Flood = require("./board.bs.js");
 var ContainerStyles$Flood = require("../ContainerStyles.bs.js");
 
@@ -40,7 +39,7 @@ function reducer(state, action) {
     var color00 = Board$Flood.getColor00(state.board);
     Board$Flood.fill(0, 0, color00, color, state.board);
     return {
-            moves: Caml_obj.caml_equal(color00, color) ? state.moves : state.moves + 1 | 0,
+            moves: color00 === color ? state.moves : state.moves + 1 | 0,
             finished: Board$Flood.isFinished(state.board),
             board: state.board
           };

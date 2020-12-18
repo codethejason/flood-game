@@ -8,14 +8,6 @@ var Random = require("bs-platform/lib/js/random.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 
-function getEmptyBoard(param) {
-  return [];
-}
-
-function getColor00(board) {
-  return Caml_array.get(Caml_array.get(board, 0), 0);
-}
-
 function colorToCSSColor(color) {
   switch (color) {
     case /* G */0 :
@@ -59,6 +51,14 @@ function squareStyle(color, numberSquares) {
         };
 }
 
+function getEmptyBoard(param) {
+  return [];
+}
+
+function getColor00(board) {
+  return Caml_array.get(Caml_array.get(board, 0), 0);
+}
+
 function createRandomBoard(size) {
   return $$Array.map((function (param) {
                 return $$Array.map((function (param) {
@@ -76,7 +76,7 @@ function isFinished(board) {
   var color00 = getColor00(board);
   return $$Array.fold_left((function (acc1, a) {
                 return $$Array.fold_left((function (acc2, sq) {
-                              if (sq === color00) {
+                              if (Caml_obj.caml_equal(sq, color00)) {
                                 return acc2 + 1 | 0;
                               } else {
                                 return acc2;
@@ -86,7 +86,7 @@ function isFinished(board) {
 }
 
 function neighbors(x, y, lenBoard) {
-  var filter_helper = function (param) {
+  var filterHelper = function (param) {
     var y$prime = param[1];
     var x$prime = param[0];
     if (x$prime >= 0 && x$prime < lenBoard && y$prime >= 0) {
@@ -95,7 +95,7 @@ function neighbors(x, y, lenBoard) {
       return false;
     }
   };
-  return List.filter(filter_helper)({
+  return List.filter(filterHelper)({
               hd: [
                 x - 1 | 0,
                 y
@@ -123,7 +123,7 @@ function neighbors(x, y, lenBoard) {
 }
 
 function fill(x, y, matchColor, newColor, board) {
-  var rec_helper = function (param, param$1) {
+  var recHelper = function (param, param$1) {
     return fill(param$1[0], param$1[1], matchColor, newColor, board);
   };
   if (!(Caml_obj.caml_notequal(Caml_array.get(Caml_array.get(board, x), y), newColor) && Caml_obj.caml_equal(Caml_array.get(Caml_array.get(board, x), y), matchColor))) {
@@ -131,7 +131,7 @@ function fill(x, y, matchColor, newColor, board) {
   }
   Caml_array.set(Caml_array.get(board, x), y, newColor);
   var valid_neighbors = neighbors(x, y, board.length);
-  return List.fold_left(rec_helper, undefined, valid_neighbors);
+  return List.fold_left(recHelper, undefined, valid_neighbors);
 }
 
 function Board(Props) {
